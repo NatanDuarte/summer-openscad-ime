@@ -2,15 +2,14 @@ $fn=64;
 
 
 module PlateRing(
-    rimRadius = 17.80, // 17.80 is equivalent to 18 in brazilian finger measure
+    rimRadius = 8.7, // 8.7 is equivalent to 18 in brazilian finger measure
     rimTickness = 0.75,
-    rimWidth = 5,
-
-    plateWidth = 0.5,
+    rimWidth = 4,
+    plateWidth = 0.75,
     plateHeight = 0.5,
-    minPlateWidth = 10,
-    minPlateHeight = 10
 ) {
+    function plateLinearCoeficient(x, y) = x * y + x * 0.85;
+
     module Plate(plateMeasures) {
         translate([plateMeasures.x * -0.5, 0, 0]) {
             cube(plateMeasures);
@@ -22,8 +21,8 @@ module PlateRing(
             cylinder(h=rimWidth, r=rimRadius + rimTickness);
             Plate(
                 plateMeasures = [
-                    rimRadius * plateWidth + minPlateWidth,
-                    rimRadius * plateHeight + minPlateHeight,
+                    plateLinearCoeficient(rimRadius, plateWidth),
+                    plateLinearCoeficient(rimRadius, plateHeight),
                     rimWidth
                 ]
             );
@@ -35,6 +34,7 @@ module PlateRing(
     }
 }
 
-PlateRing(plateWidth=0.8, plateHeight=0.6);
+PlateRing();
 
-translate([50, 0, 0]) PlateRing(rimRadius=12);
+translate([50, 0, 0]) PlateRing(rimRadius=6, rimWidth=3);
+translate([50, 50, 0]) PlateRing(rimRadius=4.5, rimWidth=2.5);
