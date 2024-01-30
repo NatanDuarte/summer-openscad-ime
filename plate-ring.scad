@@ -1,22 +1,40 @@
-$nf=64;
+$fn=64;
 
 
-// 17.80 is equivalent to 18 in brazilian finger measure
-rimRadius = 17.80;
-rimTickness = 0.75;
-rimWidth = 5;
+module PlateRing(
+    rimRadius = 17.80, // 17.80 is equivalent to 18 in brazilian finger measure
+    rimTickness = 0.75,
+    rimWidth = 5,
 
-plateFactor = 25;
-plateWidth = 1;
-plateHeight = 1;
-plateMeasures = [plateFactor + plateWidth, plateFactor + plateHeight, rimWidth];
-
-color([1, .9, 0])
-difference() {
-    hull() {
-        cylinder(h=rimWidth, r=rimRadius + rimTickness);
-        translate([plateMeasures.x * -0.5, rimRadius * -0.25, 0])
-                cube(plateMeasures);
+    plateWidth = 0.5,
+    plateHeight = 0.5,
+    minPlateWidth = 10,
+    minPlateHeight = 10
+) {
+    module Plate(plateMeasures) {
+        translate([plateMeasures.x * -0.5, 0, 0]) {
+            cube(plateMeasures);
+        }
     }
-    translate([0, 0, rimTickness * -0.5]) cylinder(h=rimWidth+2, r=rimRadius);
+
+    difference() {
+        hull() {
+            cylinder(h=rimWidth, r=rimRadius + rimTickness);
+            Plate(
+                plateMeasures = [
+                    rimRadius * plateWidth + minPlateWidth,
+                    rimRadius * plateHeight + minPlateHeight,
+                    rimWidth
+                ]
+            );
+        }
+
+        translate([0, 0, rimTickness * -0.5]) {
+            cylinder(h=rimWidth + 2, r=rimRadius);
+        }
+    }
 }
+
+PlateRing(plateWidth=0.8, plateHeight=0.6);
+
+translate([50, 0, 0]) PlateRing(rimRadius=12);
