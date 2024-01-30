@@ -10,31 +10,47 @@ module PlateRing(
 ) {
     function plateLinearCoeficient(x, y) = x * y + x * 0.85;
 
-    module Plate(plateMeasures) {
-        translate([plateMeasures.x * -0.5, 0, 0]) {
-            cube(plateMeasures);
-        }
+    function centralize(x) = x * -0.5;
+
+    module Plate(measures) {
+        translate([centralize(measures.x), 0, 0])
+            cube(measures);
     }
 
-    difference() {
-        hull() {
-            cylinder(h=rimWidth, r=rimRadius + rimTickness);
-            Plate(
-                plateMeasures = [
-                    plateLinearCoeficient(rimRadius, plateWidth),
-                    plateLinearCoeficient(rimRadius, plateHeight),
-                    rimWidth
-                ]
-            );
-        }
+    module Rim(width, radius) {
+        cylinder(h=width, r=radius);
+    }
 
-        translate([0, 0, rimTickness * -0.5]) {
+    module Tickness(value) {
+        translate([0, 0, centralize(value)])
+            // I don't remember why I added 2 here but it is necessary
             cylinder(h=rimWidth + 2, r=rimRadius);
+    }
+
+    module RimPlateHull() {
+        hull() {
+            Rim(width=rimWidth, radius=rimRadius + rimTickness);
+            Plate(measures = [
+                plateLinearCoeficient(rimRadius, plateWidth),
+                plateLinearCoeficient(rimRadius, plateHeight),
+                rimWidth
+            ]);
         }
     }
+
+    module main() {
+        difference() {
+            RimPlateHull();
+            Tickness(value = rimTickness);
+        }
+    }
+
+    main();
 }
+
 
 PlateRing();
 
-translate([50, 0, 0]) PlateRing(rimRadius=6, rimWidth=3);
-translate([50, 50, 0]) PlateRing(rimRadius=4.5, rimWidth=2.5);
+// more samples
+// translate([50, 0, 0]) PlateRing(rimRadius=6, rimWidth=3);
+// translate([50, 50, 0]) PlateRing(rimRadius=4.5, rimWidth=2.5);
