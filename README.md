@@ -2,8 +2,24 @@
 
 My personal notes and studies.
 
+### Cross pendant
+
 ![demo cross](./images/cross.gif)
 
-![demo cross](./images/globo.gif)
+---
 
-![demo cross](./images/plate-ring.gif)
+### Globo Logo
+
+![demo globo](./images/globo.gif)
+
+---
+
+### Plate Ring
+
+![demo plate ring](./images/plate-ring.gif)
+
+---
+
+Links to study
+
+* [working with randomness](https://mathgrrl.com/hacktastic/2019/03/randomizer/)
