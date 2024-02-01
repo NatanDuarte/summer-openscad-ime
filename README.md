@@ -20,6 +20,12 @@ My personal notes and studies.
 
 ---
 
+### Nintendo 64 Logo
+
+![N64 logo](./images/N64.gif)
+
+---
+
 Links to study
 
 * [working with randomness](https://mathgrrl.com/hacktastic/2019/03/randomizer/)
